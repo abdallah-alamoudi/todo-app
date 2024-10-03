@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head.ejs') %>
+  </head>
+  <body>
+    <%- include('../partials/header.ejs') %>
+    <main>
+      <form action="/<%= todoId %>?_method='PUT'" method="post">
+        <div class="inp">
+          <label for="title">title</label>
+          <input type="text" name="title" id="title" />
+        </div>
+        <div class="inp">
+          <label for="description">description</label>
+          <input type="text" name="description" id="description" />
+        </div>
+         <div class="inp"></div>
+          <label for="completed">completed</label>
+          <input type="checkbox" name="completed" id="completed">
+        </div>
+      </form>
+    </main>
+    <%- include('../partials/footer.ejs') %>
+  </body>
+</html>

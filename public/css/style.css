@@ -1,0 +1,12 @@
+.todo {
+  margin: 10px 20px;
+  padding: 50px;
+  display: inline-block;
+  background-color: aliceblue;
+}
+header {
+  background-color: aqua;
+}
+footer {
+  background-color: aquamarine;
+}

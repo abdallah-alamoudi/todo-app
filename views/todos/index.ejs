@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head.ejs') %>
+  </head>
+  <body>
+    <%- include('../partials/header.ejs') %>
+    <main>
+      <div class="createBtn">
+        <button><a href="/todos/new">Create</a></button>
+      </div>
+      <div class="todos">
+        <% if (todos.length === 0) { %>
+        <h1>No todos to show</h1>
+        <% } else { %> <% todos.forEach(todo => { %>
+        <div class="todo">
+          <h1><%= todo.title %></h1>
+          <button><a href="/todos/<%= todo.id %>">VIEW</a></button>
+          <button><a href="/todos/<%= todo.id %>/edit">UPDATE</a></button>
+          <button type="button">
+            <a href="/todos/<%= todo.id %>/delete">DELETE</a>
+          </button>
+        </div>
+        <% }) %><% } %>
+      </div>
+    </main>
+    <%- include('../partials/footer.ejs') %>
+  </body>
+</html>

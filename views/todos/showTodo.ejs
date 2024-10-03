@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head.ejs') %>
+  </head>
+  <body>
+    <%- include('../partials/header.ejs') %>
+    <main>
+      <div class="todoShow">
+        <h1><%= todo.title %></h1>
+        <p><%= todo.description %></p>
+        <h3><%= todo.completed %></h2>
+        <h3><%= todo.created_at %></h2>
+        <h3><%= todo.updated_at %></h2>
+        <button><a href="/todos/<%= todo.id %>/edit">UPDATE</a></button>
+        <button type="button">
+            <a href="/todos/<%= todo.id %>/delete">DELETE</a>
+        </button>
+        <a href="/todos"><button type="button">BACK</button></a>
+      </div>
+    </main>
+
+    <%- include('../partials/footer.ejs') %>
+  </body>
+</html>

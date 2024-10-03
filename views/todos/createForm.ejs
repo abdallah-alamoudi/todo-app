@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head.ejs') %>
+  </head>
+  <body>
+    <%- include('../partials/header.ejs') %>
+    <main>
+      <form action="/todos" method="post">
+        <div class="todoTitle">
+          <label for="title">title</label>
+          <input type="text" name="title" id="title" />
+        </div>
+        <div class="todoDescription">
+          <label for="title">Description</label>
+          <textarea name="description" id="description"></textarea>
+        </div>
+        <button type="submit">Create</button>
+      </form>
+    </main>
+    <%- include('../partials/footer.ejs') %>
+  </body>
+</html>
