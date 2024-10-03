@@ -6,20 +6,29 @@
   <body>
     <%- include('../partials/header.ejs') %>
     <main>
-      <form action="/<%= todoId %>?_method='PUT'" method="post">
+      <form action="/todos/<%= todo.id %>/?_method=PUT" method="post">
         <div class="inp">
           <label for="title">title</label>
-          <input type="text" name="title" id="title" />
+          <input type="text" name="title" id="title" value="<%= todo.title %>"
         </div>
         <div class="inp">
           <label for="description">description</label>
-          <input type="text" name="description" id="description" />
+          <input
+            type="text"
+            name=""
+            id="description"
+            value="<%= todo.description %>"
+          />
         </div>
-         <div class="inp"></div>
+        <div class="inp">
           <label for="completed">completed</label>
-          <input type="checkbox" name="completed" id="completed">
+          <input type="checkbox" name="completed" id="completed" <%=
+          todo.completed ? 'checked' : '' %> />
         </div>
+        <button type="submit">UPDATE</button>
       </form>
+      <button><a href="/todos/<%= todo.id %>">View</a></button>
+      <button type="button"><a href="/todos">BACK</a></button>
     </main>
     <%- include('../partials/footer.ejs') %>
   </body>

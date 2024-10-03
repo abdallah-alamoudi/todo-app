@@ -51,7 +51,18 @@ const create = (req, res, next) => {
 const editForm = (req, res, next) => {
   try {
     const todoId = req.params.id;
-    res.render("todos/editForm", { title: "edit todo", todoId });
+    const todo = TodoModel.getTodo(todoId);
+    res.render("todos/editForm", { title: "edit todo", todo });
+  } catch (error) {
+    next(error);
+  }
+};
+const update = (req, res, next) => {
+  try {
+    const todoId = req.params.id;
+    const updateObj = req.body;
+    TodoModel.updateTodo(todoId, updateObj);
+    res.redirect(`/todos/${todoId}`);
   } catch (error) {
     next(error);
   }
@@ -64,4 +75,5 @@ module.exports = {
   createForm,
   create,
   editForm,
+  update,
 };

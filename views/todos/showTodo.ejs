@@ -9,14 +9,14 @@
       <div class="todoShow">
         <h1><%= todo.title %></h1>
         <p><%= todo.description %></p>
-        <h3><%= todo.completed %></h2>
+        <h3><%= todo.completed  ? "completed":"pending"  %></h2>
         <h3><%= todo.created_at %></h2>
         <h3><%= todo.updated_at %></h2>
         <button><a href="/todos/<%= todo.id %>/edit">UPDATE</a></button>
         <button type="button">
-            <a href="/todos/<%= todo.id %>/delete">DELETE</a>
+          <a href="/todos/<%= todo.id %>/delete">DELETE</a>
         </button>
-        <a href="/todos"><button type="button">BACK</button></a>
+        <button type="button"><a href="/todos">BACK</a></button>
       </div>
     </main>
 

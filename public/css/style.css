@@ -10,3 +10,9 @@ header {
 footer {
   background-color: aquamarine;
 }
+.completed {
+  background-color: rgb(154, 246, 154);
+}
+.pending {
+  background-color: rgb(251, 51, 16);
+}

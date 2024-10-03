@@ -13,7 +13,7 @@
         <% if (todos.length === 0) { %>
         <h1>No todos to show</h1>
         <% } else { %> <% todos.forEach(todo => { %>
-        <div class="todo">
+        <div class="todo <%= todo.completed ? 'completed' : 'pending' %>">
           <h1><%= todo.title %></h1>
           <button><a href="/todos/<%= todo.id %>">VIEW</a></button>
           <button><a href="/todos/<%= todo.id %>/edit">UPDATE</a></button>

@@ -52,10 +52,13 @@ class TodoModel {
       allowedFields.includes(field)
     );
     if (!isAllowed) throw new TodoError("unallowed to update fields");
-    // creating to do
+
+    // update the completed field
+    updateObj.completed = updateObj.completed === "on";
+
     const todos = this.getTodos();
     const todoInx = todos.findIndex((todo) => todo.id === id);
-    const todo = this.getTodo(id);
+    const todo = todos[todoInx];
     const newTodo = {
       ...todo,
       ...updateObj,

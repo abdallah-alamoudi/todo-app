@@ -8,7 +8,7 @@ router.get("/new", TodoController.createForm);
 router.get("/:id/delete", TodoController.deletePage);
 router.get("/:id/edit", TodoController.editForm);
 router.get("/:id", TodoController.getTodo);
-// router.put("/:id", TodoController.editTodo);
+router.put("/:id", TodoController.update);
 router.delete("/:id", TodoController.deleteTodo);
 
 module.exports = router;
