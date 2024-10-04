@@ -16,3 +16,6 @@ footer {
 .pending {
   background-color: rgb(251, 51, 16);
 }
+.error-message {
+  color: red;
+}
