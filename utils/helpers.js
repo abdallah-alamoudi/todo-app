@@ -22,7 +22,7 @@ const writeTodos = (todos) => {
   fs.writeFileSync(todosPath, todosJson);
 };
 const countTitle = (title, todos) => {
-  const count = 0;
+  let count = 0;
   todos.forEach((todo) => {
     if (todo.title === title) {
       count++;

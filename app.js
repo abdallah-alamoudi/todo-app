@@ -17,6 +17,7 @@ app.get("/", (req, res) => {
 });
 app.use("/todos", TodoRouter);
 app.use((err, req, res, next) => {
+  console.log(err);
   res.render("errors/errorPage", { err, title: "Error" });
 });
 app.listen(port, () => {

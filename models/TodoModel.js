@@ -67,7 +67,7 @@ class TodoModel {
       throw todoError;
     }
     // check if new title is being updated
-    const newTitle = updateFields.title;
+    const newTitle = updateObj.title;
     if (newTitle) {
       // check if its duplicate
       if (countTitle(newTitle, todos) > 1) {
