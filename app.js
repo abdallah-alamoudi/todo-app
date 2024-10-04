@@ -16,7 +16,9 @@ app.get("/", (req, res) => {
   res.redirect("/todos");
 });
 app.use("/todos", TodoRouter);
-
+app.use((err, req, res, next) => {
+  res.render("errors/errorPage", { err, title: "Error" });
+});
 app.listen(port, () => {
   console.log("server is up on port " + port);
 });
