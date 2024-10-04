@@ -34,7 +34,9 @@ const deleteTodo = (req, res, next) => {
 };
 const createForm = (req, res, next) => {
   try {
-    res.render("todos/createForm", { title: "new todo" });
+    res.render("todos/createForm", {
+      title: "new todo",
+    });
   } catch (error) {
     next(error);
   }
@@ -61,6 +63,7 @@ const update = (req, res, next) => {
   try {
     const todoId = req.params.id;
     const updateObj = req.body;
+    console.log(updateObj);
     TodoModel.updateTodo(todoId, updateObj);
     res.redirect(`/todos/${todoId}`);
   } catch (error) {
