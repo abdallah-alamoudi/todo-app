@@ -1,6 +1,12 @@
 const fs = require("fs");
 const path = require("path");
 const todosPath = path.join(__dirname, "../data/todos.json");
+const dataDir = path.join(__dirname, "../data");
+
+// create data folder if not found
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir);
+}
 const readTodos = () => {
   if (!fs.existsSync(todosPath) || fs.readFileSync(todosPath, "utf-8") === "") {
     return [];
