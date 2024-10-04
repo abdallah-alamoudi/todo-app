@@ -2,8 +2,10 @@ const { v4: uuidv4 } = require("uuid");
 const { writeTodos, readTodos, countTitle } = require("../utils/helpers");
 
 class TodoError extends Error {
-  constructor(message) {
-    super(message), (this.name = "TodoError");
+  constructor(message, type) {
+    super(message);
+    this.name = "TodoError";
+    this.type = type;
   }
 }
 class TodoModel {

@@ -73,9 +73,7 @@ const update = (req, res, next) => {
     const updateObj = req.body;
     TodoModel.updateTodo(todoId, updateObj);
     res.redirect(`/todos/${todoId}`);
-  } catch (error) {
-    next(error);
-  }
+  } catch (error) {}
 };
 module.exports = {
   listTodos,
