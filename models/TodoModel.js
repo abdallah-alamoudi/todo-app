@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
-const { writeTodos, readTodos } = require("../utils/helpers");
+const { writeTodos, readTodos, countTitle } = require("../utils/helpers");
 
 class TodoError extends Error {
   constructor(message) {
@@ -36,8 +36,9 @@ class TodoModel {
       updated_at: new Date().toISOString(),
     };
     const todos = this.getTodos();
-    const duplicateTodo = todos.find((todo) => todo.title === title);
-    if (duplicateTodo)
+
+    // check if title already exist
+    if (countTitle(title, todos) > 0)
       throw new TodoError("a todo with this title already exist");
     todos.push(todo);
     writeTodos(todos);
@@ -64,6 +65,14 @@ class TodoModel {
       const todoError = TodoError("unallowed to update fields");
       todoError.unallowedFields = unallowedFields;
       throw todoError;
+    }
+    // check if new title is being updated
+    const newTitle = updateFields.title;
+    if (newTitle) {
+      // check if its duplicate
+      if (countTitle(newTitle, todos) > 1) {
+        throw new TodoError("a todo with this title already exist");
+      }
     }
 
     // update the completed field

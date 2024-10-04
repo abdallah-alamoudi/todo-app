@@ -21,8 +21,17 @@ const writeTodos = (todos) => {
 
   fs.writeFileSync(todosPath, todosJson);
 };
-
+const countTitle = (title, todos) => {
+  const count = 0;
+  todos.forEach((todo) => {
+    if (todo.title === title) {
+      count++;
+    }
+  });
+  return count;
+};
 module.exports = {
   writeTodos,
   readTodos,
+  countTitle,
 };
