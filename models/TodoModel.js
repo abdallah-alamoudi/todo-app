@@ -45,6 +45,11 @@ class TodoModel {
   }
 
   static updateTodo(id, updateObj) {
+    // check if todo exist
+    const todos = this.getTodos();
+    const todoInx = todos.findIndex((todo) => todo.id === id);
+    if (todoInx === -1)
+      throw new TodoError("No todo with this id " + id + " is found");
     //check if the update fields are allowed
     const allowedFields = ["title", "description", "completed"];
     const updateFields = Object.keys(updateObj);
@@ -53,9 +58,9 @@ class TodoModel {
     );
     if (!isAllowed) throw new TodoError("unallowed to update fields");
     // update the completed field
-    const todos = this.getTodos();
+
     updateObj.completed = updateObj.completed === "on";
-    const todoInx = todos.findIndex((todo) => todo.id === id);
+
     const todo = todos[todoInx];
     const newTodo = {
       ...todo,
