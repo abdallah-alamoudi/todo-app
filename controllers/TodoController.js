@@ -36,6 +36,7 @@ const createForm = (req, res, next) => {
   try {
     res.render("todos/createForm", {
       title: "new todo",
+      data: {},
     });
   } catch (error) {
     next(error);
@@ -47,7 +48,14 @@ const create = (req, res, next) => {
     const todo = TodoModel.createTodo({ title, description });
     res.redirect(`/todos/${todo.id}`);
   } catch (error) {
-    next(error);
+    console.log(req.body);
+    res.render("todos/createForm", {
+      title: "new todo",
+      data: {
+        error,
+        formData: req.body,
+      },
+    });
   }
 };
 const editForm = (req, res, next) => {
@@ -63,7 +71,6 @@ const update = (req, res, next) => {
   try {
     const todoId = req.params.id;
     const updateObj = req.body;
-    console.log(updateObj);
     TodoModel.updateTodo(todoId, updateObj);
     res.redirect(`/todos/${todoId}`);
   } catch (error) {
