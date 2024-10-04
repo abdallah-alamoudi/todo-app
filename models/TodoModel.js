@@ -53,12 +53,20 @@ class TodoModel {
     //check if the update fields are allowed
     const allowedFields = ["title", "description", "completed"];
     const updateFields = Object.keys(updateObj);
-    const isAllowed = updateFields.every((field) =>
-      allowedFields.includes(field)
-    );
-    if (!isAllowed) throw new TodoError("unallowed to update fields");
-    // update the completed field
+    const unallowedFields = [];
+    updateFields.forEach((field) => {
+      if (!allowedFields.includes(field)) {
+        unallowedFields.push(field);
+      }
+    });
 
+    if (unallowedFields.length) {
+      const todoError = TodoError("unallowed to update fields");
+      todoError.unallowedFields = unallowedFields;
+      throw todoError;
+    }
+
+    // update the completed field
     updateObj.completed = updateObj.completed === "on";
 
     const todo = todos[todoInx];
