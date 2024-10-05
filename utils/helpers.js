@@ -21,17 +21,17 @@ const writeTodos = (todos) => {
 
   fs.writeFileSync(todosPath, todosJson);
 };
-const countTitle = (title, todos) => {
-  let count = 0;
-  todos.forEach((todo) => {
-    if (todo.title === title) {
-      count++;
+const isDuplicate = (title, id, todos) => {
+  for (let i = 0; i < todos.length; i++) {
+    const todo = todos[i];
+    if (title === todo.title && id !== todo.id) {
+      return true;
     }
-  });
-  return count;
+  }
+  return false;
 };
 module.exports = {
   writeTodos,
   readTodos,
-  countTitle,
+  isDuplicate,
 };
