@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
-const { writeTodos, readTodos, countTitle } = require("../utils/helpers");
+const { writeTodos, readTodos, isDuplicate } = require("../utils/helpers");
 
 class TodoError extends Error {
   constructor(message, type) {
@@ -15,7 +15,8 @@ class TodoModel {
   static getTodo(id) {
     const todos = this.getTodos();
     const todo = todos.find((todo) => todo.id === id);
-    if (!todo) throw new TodoError("no todo found with this id " + id);
+    if (!todo)
+      throw new TodoError("no todo found with this id " + id, "Not found");
     return todo;
   }
 
@@ -23,7 +24,7 @@ class TodoModel {
     const todos = this.getTodos();
     const newTodos = todos.filter((todo) => todo.id !== id);
     if (newTodos.length === todos.length) {
-      throw new TodoError("no todo found with this id " + id);
+      throw new TodoError("no todo found with this id " + id, "Not found");
     }
     writeTodos(newTodos);
     return true;
@@ -40,8 +41,11 @@ class TodoModel {
     const todos = this.getTodos();
 
     // check if title already exist
-    if (countTitle(title, todos) > 0)
-      throw new TodoError("a todo with this title already exist");
+    if (isDuplicate(todo.title, todo.id, todos))
+      throw new TodoError(
+        "a todo with this title already exist",
+        "Duplicate title"
+      );
     todos.push(todo);
     writeTodos(todos);
     return todo;
@@ -51,8 +55,13 @@ class TodoModel {
     // check if todo exist
     const todos = this.getTodos();
     const todoInx = todos.findIndex((todo) => todo.id === id);
+    const todo = todos[todoInx];
     if (todoInx === -1)
-      throw new TodoError("No todo with this id " + id + " is found");
+      throw new TodoError(
+        "No todo with this id " + id + " is found",
+        "Not found"
+      );
+
     //check if the update fields are allowed
     const allowedFields = ["title", "description", "completed"];
     const updateFields = Object.keys(updateObj);
@@ -64,23 +73,24 @@ class TodoModel {
     });
 
     if (unallowedFields.length) {
-      const todoError = TodoError("unallowed to update fields");
+      const todoError = TodoError(
+        "unallowed to update fields",
+        "Unallowed update"
+      );
       todoError.unallowedFields = unallowedFields;
       throw todoError;
     }
-    // check if new title is being updated
-    const newTitle = updateObj.title;
-    if (newTitle) {
-      // check if its duplicate
-      if (countTitle(newTitle, todos) > 1) {
-        throw new TodoError("a todo with this title already exist");
-      }
+    // check if new title is being updated and its duplicate
+
+    if (isDuplicate(updateObj.title, todo.id, todos)) {
+      throw new TodoError(
+        "a todo with this title already exist",
+        "Duplicate title"
+      );
     }
 
     // update the completed field
     updateObj.completed = updateObj.completed === "on";
-
-    const todo = todos[todoInx];
     const newTodo = {
       ...todo,
       ...updateObj,
@@ -92,4 +102,4 @@ class TodoModel {
     return newTodo;
   }
 }
-module.exports = TodoModel;
+module.exports = { TodoModel, TodoError };

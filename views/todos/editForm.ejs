@@ -6,6 +6,9 @@
   <body>
     <%- include('../partials/header.ejs') %>
     <main>
+      <% if (error) { %>
+      <div class="error-message"><%= error.message %></div>
+      <% } %>
       <form action="/todos/<%= todo.id %>/?_method=PUT" method="post">
         <div class="inp">
           <label for="title">title</label>

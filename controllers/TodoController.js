@@ -1,5 +1,4 @@
-const TodoModel = require("../models/TodoModel");
-// TodoModel.createTodo({ title: "doing 5", description: "after tomorow" });
+const { TodoModel, TodoError } = require("../models/TodoModel");
 const listTodos = (req, res, next) => {
   try {
     const todos = TodoModel.getTodos();
@@ -48,21 +47,22 @@ const create = (req, res, next) => {
     const todo = TodoModel.createTodo({ title, description });
     res.redirect(`/todos/${todo.id}`);
   } catch (error) {
-    console.log(req.body);
-    res.render("todos/createForm", {
-      title: "new todo",
-      data: {
-        error,
-        formData: req.body,
-      },
-    });
+    if (error instanceof TodoError) {
+      res.render("todos/createForm", {
+        title: "new todo",
+        data: {
+          error,
+          formData: req.body,
+        },
+      });
+    }
   }
 };
 const editForm = (req, res, next) => {
   try {
     const todoId = req.params.id;
     const todo = TodoModel.getTodo(todoId);
-    res.render("todos/editForm", { title: "edit todo", todo });
+    res.render("todos/editForm", { title: "edit todo", todo, error: null });
   } catch (error) {
     next(error);
   }
@@ -72,8 +72,17 @@ const update = (req, res, next) => {
     const todoId = req.params.id;
     const updateObj = req.body;
     TodoModel.updateTodo(todoId, updateObj);
-    res.redirect(`/todos/${todoId}`);
-  } catch (error) {}
+    res.redirect(`/todos`);
+  } catch (error) {
+    if (error instanceof TodoError) {
+      const todo = TodoModel.getTodo(req.params.id);
+      res.render("todos/editForm", {
+        title: "edit todo",
+        todo,
+        error,
+      });
+    }
+  }
 };
 module.exports = {
   listTodos,

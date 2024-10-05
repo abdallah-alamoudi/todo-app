@@ -15,15 +15,15 @@
             id="title"
             value="<%= data.formData?.title %>"
           />
-          <div class="error-message"><%= data.error?.message %></div></div>
+          <% if (data.error) { %>
+          <div class="error-message"><%= data.error.message %></div>
+          <% } %>
         </div>
         <div class="todoDescription">
           <label for="title">Description</label>
-          <textarea
-            name="description"
-            id="description"
-            
-          ><%= data.formData?.description %></textarea>
+          <textarea name="description" id="description">
+          <%= data.formData?.description %></textarea
+          >
         </div>
         <button type="submit">Create</button>
       </form>
