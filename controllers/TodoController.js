@@ -1,89 +1,43 @@
 const { TodoModel, TodoError } = require("../models/TodoModel");
-const listTodos = (req, res, next) => {
-  try {
-    const todos = TodoModel.getTodos();
-    res.render("todos/index", { todos, title: "todos" });
-  } catch (error) {
-    next(error);
-  }
-};
-const getTodo = (req, res, next) => {
-  try {
-    const todo = TodoModel.getTodo(req.params.id);
-    res.render("todos/showTodo", { title: "todo", todo });
-  } catch (error) {
-    next(error);
-  }
-};
-const deletePage = (req, res, next) => {
-  try {
-    const todo = TodoModel.getTodo(req.params.id);
-    res.render("todos/deleteTodo", { title: "Delete todo", todo });
-  } catch (error) {
-    next(error);
-  }
-};
-const deleteTodo = (req, res, next) => {
-  try {
-    TodoModel.deleteTodo(req.params.id);
-    res.redirect("/todos");
-  } catch (error) {
-    next(error);
-  }
-};
-const createForm = (req, res, next) => {
-  try {
-    res.render("todos/createForm", {
-      title: "new todo",
-      data: {},
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-const create = (req, res, next) => {
-  try {
-    const { title, description } = req.body;
-    const todo = TodoModel.createTodo({ title, description });
-    res.redirect(`/todos/${todo.id}`);
-  } catch (error) {
-    if (error instanceof TodoError) {
-      res.render("todos/createForm", {
-        title: "new todo",
-        data: {
-          error,
-          formData: req.body,
-        },
-      });
-    }
-  }
-};
-const editForm = (req, res, next) => {
-  try {
-    const todoId = req.params.id;
-    const todo = TodoModel.getTodo(todoId);
-    res.render("todos/editForm", { title: "edit todo", todo, error: null });
-  } catch (error) {
-    next(error);
-  }
-};
-const update = (req, res, next) => {
-  try {
-    const todoId = req.params.id;
-    const updateObj = req.body;
-    TodoModel.updateTodo(todoId, updateObj);
-    res.redirect(`/todos`);
-  } catch (error) {
-    if (error instanceof TodoError) {
-      const todo = TodoModel.getTodo(req.params.id);
-      res.render("todos/editForm", {
-        title: "edit todo",
-        todo,
-        error,
-      });
-    }
-  }
-};
+const { asyncHandler } = require("../utils/helpers");
+const listTodos = asyncHandler((req, res, next) => {
+  const todos = TodoModel.getTodos();
+  res.render("todos/index", { todos, title: "todos" });
+});
+const getTodo = asyncHandler((req, res, next) => {
+  const todo = TodoModel.getTodo(req.params.id);
+  res.render("todos/showTodo", { title: "todo", todo });
+});
+const deletePage = asyncHandler((req, res, next) => {
+  const todo = TodoModel.getTodo(req.params.id);
+  res.render("todos/deleteTodo", { title: "Delete todo", todo });
+});
+const deleteTodo = asyncHandler((req, res, next) => {
+  TodoModel.deleteTodo(req.params.id);
+  res.redirect("/todos");
+});
+const createForm = asyncHandler((req, res, next) => {
+  res.render("todos/createForm", {
+    title: "new todo",
+    data: {},
+  });
+});
+const create = asyncHandler((req, res, next) => {
+  const { title, description } = req.body;
+  const todo = TodoModel.createTodo({ title, description });
+  res.redirect(`/todos`);
+});
+const editForm = asyncHandler((req, res, next) => {
+  const todoId = req.params.id;
+  const todo = TodoModel.getTodo(todoId);
+  res.render("todos/editForm", { title: "edit todo", todo, error: null });
+});
+const update = asyncHandler((req, res, next) => {
+  const todoId = req.params.id;
+  const updateObj = req.body;
+  TodoModel.updateTodo(todoId, updateObj);
+  res.redirect(`/todos`);
+});
 module.exports = {
   listTodos,
   getTodo,
