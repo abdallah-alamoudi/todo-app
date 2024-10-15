@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const todosPath = path.join(__dirname, "../data/todos.json");
 const dataDir = path.join(__dirname, "../data");
+const { validationResult } = require("express-validator");
 
 // create data folder if not found
 if (!fs.existsSync(dataDir)) {
@@ -35,9 +36,15 @@ const asyncHandler = (fn) => {
     Promise.resolve(fn(req, res, next)).catch(next);
   };
 };
+const checkValidation = asyncHandler((req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) throw new Error(errors);
+  next();
+});
 module.exports = {
   writeTodos,
   readTodos,
   isDuplicate,
   asyncHandler,
+  checkValidation,
 };
