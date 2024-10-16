@@ -3,6 +3,7 @@ const path = require("path");
 const todosPath = path.join(__dirname, "../data/todos.json");
 const dataDir = path.join(__dirname, "../data");
 const { validationResult } = require("express-validator");
+const { ValidationError } = require("../utils/errorClasses");
 
 // create data folder if not found
 if (!fs.existsSync(dataDir)) {
@@ -36,11 +37,13 @@ const asyncHandler = (fn) => {
     Promise.resolve(fn(req, res, next)).catch(next);
   };
 };
-const checkValidation = asyncHandler((req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) throw new Error(errors);
-  next();
-});
+const checkValidation = (page) => {
+  return asyncHandler((req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) next(new ValidationError(errors.errors, page));
+    next();
+  });
+};
 module.exports = {
   writeTodos,
   readTodos,

@@ -1,13 +1,19 @@
+const { ValidationError } = require("../utils/errorClasses");
 const globalErrorHandler = (err, req, res, next) => {
-  console.log(err);
-  if (err instanceof TodoError) {
-    res.render("todos/createForm", {
-      title: "new todo",
-      data: {
-        error,
-        formData: req.body,
-      },
-    });
+  if (err instanceof ValidationError) {
+    switch (err.page) {
+      case "update":
+        res.send("update error");
+        break;
+      case "create":
+        res.send("create error");
+        break;
+      case "invalid id":
+        res.send("invalid id");
+        break;
+      default:
+        break;
+    }
   }
 };
 module.exports = {

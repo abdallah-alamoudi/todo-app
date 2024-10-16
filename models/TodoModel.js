@@ -62,26 +62,6 @@ class TodoModel {
         "Not found"
       );
 
-    //check if the update fields are allowed
-    const allowedFields = ["title", "description", "completed"];
-    const updateFields = Object.keys(updateObj);
-    const unallowedFields = [];
-    updateFields.forEach((field) => {
-      if (!allowedFields.includes(field)) {
-        unallowedFields.push(field);
-      }
-    });
-
-    if (unallowedFields.length) {
-      const todoError = TodoError(
-        "unallowed to update fields",
-        "Unallowed update"
-      );
-      todoError.unallowedFields = unallowedFields;
-      throw todoError;
-    }
-    // check if new title is being updated and its duplicate
-
     if (isDuplicate(updateObj.title, todo.id, todos)) {
       throw new TodoError(
         "a todo with this title already exist",
