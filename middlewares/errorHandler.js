@@ -3,13 +3,13 @@ const globalErrorHandler = (err, req, res, next) => {
   if (err instanceof ValidationError) {
     switch (err.page) {
       case "update":
-        res.send("update error");
+        res.send(err.errors);
         break;
       case "create":
-        res.send("create error");
+        res.send(err.errors);
         break;
       case "invalid id":
-        res.send("invalid id");
+        res.send(err.errors);
         break;
       default:
         break;
