@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const TodoRouter = require("./routes/TodoRouter");
 const { globalErrorHandler } = require("./middlewares/errorHandler");
+const { connectToDB } = require("./data/db");
 const app = express();
 const port = process.env.PORT || 3000;
 app.set("view engine", "ejs");
@@ -20,7 +21,13 @@ app.get("/", (req, res) => {
 });
 app.use("/todos", TodoRouter);
 
-app.use(globalErrorHandler);
-app.listen(port, () => {
-  console.log("server is up on port " + port);
-});
+// connect to db then start server
+connectToDB()
+  .then(() => {
+    app.listen(port, async () => {
+      console.log("server is up on port " + port);
+    });
+  })
+  .catch((error) => {
+    console.error("Failed to connect to the database:", error);
+  });
