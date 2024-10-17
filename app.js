@@ -1,7 +1,8 @@
+require("dotenv").config();
+
 const express = require("express");
 const path = require("path");
 const methodOverride = require("method-override");
-require("dotenv").config();
 
 const TodoRouter = require("./routes/TodoRouter");
 const { globalErrorHandler } = require("./middlewares/errorHandler");
@@ -20,6 +21,7 @@ app.get("/", (req, res) => {
   res.redirect("/todos");
 });
 app.use("/todos", TodoRouter);
+app.use(globalErrorHandler);
 
 // connect to db then start server
 connectToDB()
