@@ -1,5 +1,5 @@
 const { MongoClient } = require("mongodb");
-const uri = process.env.MONGODB_URL || "mongodb://localhost:27017";
+const uri = process.env.MONGODB_URI || "mongodb://localhost:27017";
 const client = new MongoClient(uri);
 let db;
 const connectToDB = async () => {
