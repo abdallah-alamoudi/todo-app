@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const methodOverride = require("method-override");
+require("dotenv").config();
 
 const TodoRouter = require("./routes/TodoRouter");
 const { globalErrorHandler } = require("./middlewares/errorHandler");
