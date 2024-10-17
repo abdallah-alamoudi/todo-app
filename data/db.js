@@ -15,10 +15,4 @@ const getDB = async () => {
     await client.close();
   }
 };
-const getData = async () => {
-  const db = await getDB();
-  const data = await db.collection("todos").find({}).toArray();
-  console.log(data);
-};
-getData();
 module.exports = { getDB };
