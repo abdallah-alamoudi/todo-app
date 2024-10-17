@@ -18,7 +18,7 @@ const validateCreateTodo = [
 ];
 const validateUpdateTodo = [
   param("id")
-    .isUUID()
+    .isMongoId()
     .withMessage("no todo with this id")
     .trim()
     .escape()
@@ -40,7 +40,7 @@ const validateUpdateTodo = [
   checkValidation("update"),
 ];
 const validateAndSanitizeID = [
-  param("id").trim().isUUID().escape(),
+  param("id").trim().isMongoId().escape(),
   checkValidation("invalid id"),
 ];
 module.exports = {
